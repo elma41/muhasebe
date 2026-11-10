@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Defter — Kullanım Kılavuzu</title>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f5f4f0;--surface:#fcfcfb;--s2:#f0efea;--line:#e4e2dc;--ink:#0b0b0b;--ink2:#52514e;--ink3:#85837d;--brand:#0f5f56;--brand-soft:#e2eeeb;--hl:#e8a33b;--r:14px}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:20px}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.6 Manrope,"Segoe UI",system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:var(--brand)}
+.wrap{display:grid;grid-template-columns:260px minmax(0,1fr);max-width:1320px;margin:0 auto;gap:40px;padding:0 28px}
+aside{position:sticky;top:0;height:100vh;overflow:auto;padding:28px 0}
+.brand{display:flex;gap:10px;align-items:center;margin-bottom:22px}
+.mark{width:34px;height:34px;border-radius:9px;background:var(--brand);color:#fff;display:grid;place-items:center;font-weight:800;font-size:18px;flex:none}
+.brand b{display:block;font-size:16px;line-height:1.2}.brand small{color:var(--ink3);font-size:12.5px}
+.toc{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:1px}
+.toc a{display:flex;gap:10px;padding:7px 10px;border-radius:9px;text-decoration:none;color:var(--ink2);font-weight:600;font-size:13.5px;line-height:1.35}
+.toc a span{color:var(--ink3);font-variant-numeric:tabular-nums;min-width:18px}
+.toc a:hover{background:var(--s2)}.toc a.on{background:var(--brand-soft);color:var(--brand)}
+main{padding:40px 0 80px;min-width:0}
+.hero{padding:10px 0 26px;border-bottom:1px solid var(--line);margin-bottom:34px}
+.hero .k{font-size:12.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--brand)}
+h1{font-size:38px;line-height:1.15;letter-spacing:-.02em;margin:8px 0 12px}
+.hero p{font-size:17px;color:var(--ink2);max-width:720px;margin:0}
+.legend{display:flex;gap:18px;flex-wrap:wrap;margin-top:18px;font-size:13px;color:var(--ink2)}
+.legend span{display:flex;align-items:center;gap:7px}
+.legend i{display:inline-block;width:16px;height:16px;border-radius:5px;border:2.5px solid var(--hl)}
+section{margin:0 0 64px}
+h2{font-size:26px;letter-spacing:-.015em;margin:0 0 4px;display:flex;align-items:baseline;gap:12px}
+h2 .n{color:var(--brand);font-size:15px;font-weight:800;background:var(--brand-soft);border-radius:8px;padding:2px 9px;transform:translateY(-3px)}
+.sub{color:var(--ink2);margin:0 0 18px}
+/* oynatıcı */
+.player{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);box-shadow:0 1px 2px rgba(20,20,10,.05),0 18px 40px -24px rgba(20,20,10,.25);overflow:hidden}
+.win{background:#fff}
+.tb{display:flex;align-items:center;gap:8px;height:30px;padding:0 0 0 10px;background:#fff;border-bottom:1px solid #ececec;font-size:12px;color:#333}
+.tb .mi{width:16px;height:16px;border-radius:4px;background:var(--brand);color:#fff;font-size:10px;font-weight:800;display:grid;place-items:center}
+.tb .sp{flex:1}.tb .wb{width:44px;height:30px;display:grid;place-items:center;color:#555}
+.mb{display:flex;gap:2px;height:24px;align-items:center;padding:0 6px;font-size:12px;color:#222;border-bottom:1px solid #ececec;background:#fff}
+.mb span{padding:2px 8px;border-radius:4px}
+.screen{position:relative;aspect-ratio:1440/900;overflow:hidden;background:var(--bg);cursor:pointer}
+.screen img{position:absolute;inset:0;width:100%;height:100%;display:block;opacity:0;transition:opacity .45s ease}
+.screen img.on{opacity:1}
+.hl{position:absolute;border:3px solid var(--hl);border-radius:10px;box-shadow:0 0 0 4000px rgba(10,10,10,.0);opacity:0;transition:opacity .3s,left .5s,top .5s,width .5s,height .5s;pointer-events:none}
+.hl.on{opacity:1;box-shadow:0 0 0 4000px rgba(10,10,10,.16);animation:pulse 1.6s ease-in-out infinite}
+@keyframes pulse{50%{border-color:#f6c46b}}
+.cur{position:absolute;width:26px;height:26px;margin:-3px 0 0 -4px;pointer-events:none;transition:left .9s cubic-bezier(.45,.05,.25,1),top .9s cubic-bezier(.45,.05,.25,1);z-index:3;filter:drop-shadow(0 2px 3px rgba(0,0,0,.35))}
+.cur svg{width:100%;height:100%;transition:transform .12s}
+.cur.press svg{transform:scale(.82)}
+.cur .ib{display:none}.cur.type .ar{display:none}.cur.type .ib{display:block}
+.rip{position:absolute;width:12px;height:12px;margin:-6px 0 0 -6px;border-radius:50%;background:rgba(232,163,59,.55);pointer-events:none;opacity:0;z-index:2}
+.rip.go{animation:rip .7s ease-out}
+@keyframes rip{0%{opacity:1;transform:scale(1)}100%{opacity:0;transform:scale(7)}}
+.ctrl{display:flex;align-items:center;gap:10px;padding:12px 16px 4px}
+.btn{border:1px solid var(--line);background:#fff;border-radius:9px;height:34px;min-width:34px;padding:0 10px;display:inline-flex;align-items:center;justify-content:center;gap:6px;font:inherit;font-size:13px;font-weight:700;color:var(--ink);cursor:pointer}
+.btn:hover{background:var(--s2)}.btn.pri{background:var(--brand);border-color:var(--brand);color:#fff}
+.btn svg{width:16px;height:16px}
+.cnt{font-size:13px;color:var(--ink3);font-variant-numeric:tabular-nums;font-weight:700;min-width:44px;text-align:center}
+.bars{flex:1;display:flex;gap:4px}
+.bars i{flex:1;height:5px;border-radius:3px;background:var(--line);overflow:hidden;cursor:pointer;position:relative}
+.bars i b{position:absolute;inset:0;width:0;background:var(--brand)}
+.bars i.done b{width:100%}
+.cap{margin:0;padding:10px 18px 18px;font-size:16px;line-height:1.55;min-height:84px}
+.cap .no{display:inline-block;background:var(--brand);color:#fff;font-size:12px;font-weight:800;border-radius:6px;padding:1px 7px;margin-right:8px;transform:translateY(-1px)}
+details.list{margin-top:12px}
+details.list summary{cursor:pointer;color:var(--ink2);font-weight:700;font-size:13.5px}
+details.list ol{margin:10px 0 0;padding-left:22px;color:var(--ink2);display:grid;gap:6px}
+details.list li{cursor:pointer}details.list li:hover{color:var(--ink)}
+/* metin kartları */
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:18px 20px}
+.card h3{margin:0 0 6px;font-size:16px}
+.card p,.card li{color:var(--ink2);margin:0}
+.card ol,.card ul{margin:6px 0 0;padding-left:20px;display:grid;gap:5px}
+.step{display:inline-grid;place-items:center;width:24px;height:24px;border-radius:7px;background:var(--brand);color:#fff;font-size:12.5px;font-weight:800;margin-right:6px}
+.note{background:#fbefd9;border:1px solid #f0d9ae;border-radius:12px;padding:12px 16px;color:#5b3c00;margin-top:14px}
+kbd{font:inherit;font-size:12.5px;font-weight:700;background:#fff;border:1px solid var(--line);border-bottom-width:2px;border-radius:6px;padding:0 6px}
+.faq details{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 16px;margin-bottom:8px}
+.faq summary{cursor:pointer;font-weight:700}
+.faq details p{color:var(--ink2);margin:8px 0 2px}
+footer{color:var(--ink3);font-size:13px;border-top:1px solid var(--line);padding-top:18px}
+@media (max-width:980px){.wrap{grid-template-columns:1fr;gap:0;padding:0 16px}aside{position:static;height:auto;padding:18px 0 0}.toc{flex-direction:row;flex-wrap:wrap;gap:4px}.toc a{background:var(--s2);padding:5px 9px}main{padding-top:18px}h1{font-size:30px}.mb,.tb .wb{display:none}.cap{font-size:15px}}
+@media (prefers-reduced-motion:reduce){.cur,.hl,.screen img{transition:none}.hl.on{animation:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<aside>
+  <div class="brand"><div class="mark">D</div><div><b>Defter</b><small>Kullanım kılavuzu</small></div></div>
+  <ul class="toc" id="toc"></ul>
+</aside>
+<main>
+  <div class="hero">
+    <div class="k">Defter — Ön Muhasebe</div>
+    <h1>Kullanım kılavuzu</h1>
+    <p>Programın gerçek ekranları üzerinde adım adım anlatım. Her bölümdeki ekran kendiliğinden oynar; imleç tıklanacak yeri gösterir. Durdurmak için ekrana tıkla, ◀ ▶ ile adım adım ilerle.</p>
+    <div class="legend"><span><i></i>Turuncu çerçeve: dikkat edilecek / tıklanacak yer</span><span>Örnek verilerle çekilmiştir</span></div>
+  </div>
+
+  <section id="kurulum">
+    <h2><span class="n">0</span>Kurulum</h2>
+    <p class="sub">Defter artık tarayıcı yerine kendi penceresinde açılan bir Windows programı.</p>
+    <div class="cards">
+      <div class="card"><h3><span class="step">1</span>Kur</h3><ol>
+        <li><b>Defter-Kurulum-1.2.0.exe</b> dosyasına çift tıkla.</li>
+        <li>Windows “bilgisayarınız korundu” derse <b>Ek bilgi → Yine de çalıştır</b>'a bas (program imzasız olduğu için bu uyarı normaldir).</li>
+        <li>İleri → Kur → Bitir. Masaüstüne ve Başlat menüsüne <b>Defter</b> kısayolu eklenir.</li></ol></div>
+      <div class="card"><h3><span class="step">2</span>Ya da kurmadan kullan</h3><p><b>Defter-Tasinabilir-1.2.0.exe</b> kurulum istemez; çift tıklayınca açılır. USB bellekten veya masaüstünden çalıştırabilirsin. Açılışı kurulu sürüme göre birkaç saniye daha uzun sürer.</p></div>
+      <div class="card"><h3><span class="step">3</span>Verilerini taşı</h3><p>Defter'i daha önce Chrome/Edge'de kullandıysan: programda <b>Ayarlar → Kayıt & yedek → Kayıt klasörü seç</b> ile <b>aynı klasörü</b> seç. Klasördeki son kayıt otomatik yüklenir. Ya da <b>Dosyadan geri yükle</b> ile bir yedek dosyasını aç.</p></div>
+    </div>
+    <div class="cards" style="margin-top:14px">
+      <div class="card"><h3>Masaüstü sürümünde farklı olanlar</h3><ul>
+        <li><b>PDF</b> düğmeleri yazdırma penceresi yerine doğrudan <b>“Farklı kaydet”</b> penceresini açar. Varsayılan yer: <b>Belgeler\Defter PDF</b>. Kaydettikten sonra PDF'i açabilir, klasörde gösterebilir veya yazıcıya gönderebilirsin.</li>
+        <li>WhatsApp, Gmail ve e-posta düğmeleri bilgisayarındaki tarayıcıda / uygulamada açılır.</li>
+        <li>İnternet olmadan da çalışır (yazı tipi programın içindedir). Yalnızca WhatsApp/Gmail için internet gerekir.</li>
+        <li>Program kapanırken son değişiklikleri klasöre yazar ve kapanış yedeğini alır.</li>
+        <li><kbd>F1</kbd> bu kılavuzu açar; <kbd>Ctrl</kbd> + <kbd>+</kbd> / <kbd>−</kbd> yazıları büyütür, küçültür.</li></ul></div>
+      <div class="card"><h3>Verilerin nerede?</h3><ul>
+        <li>Program içinde: <b>%APPDATA%\Defter</b> klasöründe tutulur; programı kaldırmak verileri silmez.</li>
+        <li>Seçtiğin kayıt klasöründe: <b>defter-guncel.json</b> (her değişiklikte güncellenir) ve <b>yedekler</b> klasörü (son 100 yedek).</li>
+        <li>Kayıt klasörünü OneDrive / Google Drive içindeki bir klasör seçersen yedeklerin buluta da gider.</li></ul></div>
+    </div>
+  </section>
+
+  <div id="chapters"></div>
+
+  <section id="sss" class="faq">
+    <h2><span class="n">?</span>Sık sorulanlar</h2>
+    <p class="sub">&nbsp;</p>
+    <details><summary>Açılışta “klasörü aç ve devam et” uyarısı çıkıyor.</summary><p>Windows, programın klasöre erişimini yeniden onaylamanı isteyebilir. Uyarıdaki düğmeye bir kez tıkla; son kayıt yüklenir ve yedekleme devam eder.</p></details>
+    <details><summary>Akıllı teklif yapay zekâ mı, internet ister mi?</summary><p>Akıllı teklif programın içinde çalışan bir metin çözücüdür: yazdığın cümleden müşteriyi, ürün kodlarını (912 → Trodat 4912), adetleri, fiyatları, “KDV dahil / faturasız” ve “%10 iskonto” gibi ifadeleri anlar. İnternet istemez, verilerin hiçbir yere gönderilmez. Emin olamadığı satırları sarı, fiyatı eksik olanları kırmızı gösterir; oluşturmadan önce her şeyi değiştirebilirsin.</p></details>
+    <details><summary>Excel dosyam .xls (eski biçim), içe aktarılmıyor.</summary><p>Excel'de dosyayı aç → Dosya → Farklı Kaydet → “Excel Çalışma Kitabı (.xlsx)” seç. Ya da hücreleri başlıklarıyla seçip kopyala, içe aktarma penceresindeki kutuya yapıştır.</p></details>
+    <details><summary>Bir kaydı yanlışlıkla sildim, geri alabilir miyim?</summary><p>Ayarlar → Kayıt & yedek → Yedekler listesinden silmeden önceki saate ait yedeği “Geri yükle” ile aç. Geri yüklemeden önce o anki durumun da ayrıca yedeklenir.</p></details>
+    <details><summary>PDF'i WhatsApp'tan nasıl gönderirim?</summary><p>Belgede “Gönder”e bas → önce “PDF olarak kaydet” ile dosyayı kaydet → “WhatsApp'ta aç”. Mesaj hazır gelir; sohbette ataç simgesiyle kaydettiğin PDF'i ekle.</p></details>
+    <details><summary>Faturalar resmi e-Fatura yerine geçer mi?</summary><p>Hayır. Defter ön muhasebe programıdır; satış faturası çıktıları bilgi amaçlıdır. Resmi e-Fatura / e-Arşiv için entegratörünü kullan; Defter'e aynı faturayı kaydederek cari ve kasa takibini yap.</p></details>
+    <details><summary>Muhasebecime ne göndereyim?</summary><p>Ayarlar → Kayıt & yedek → “Excel dosyası indir”. Cariler, faturalar, kalemler, hareketler ve aylık KDV özeti ayrı sayfalarda gelir.</p></details>
+    <details><summary>Şifremi unuttum.</summary><p>Şifreler programda geri döndürülemez şekilde saklanır. Kayıt klasöründeki bir yedeği başka bir bilgisayarda / sıfırlanmış programda geri yükleyerek verilerine ulaşabilirsin.</p></details>
+  </section>
+  <footer>Defter — Ön Muhasebe · Ekranlar programın kendisinden, örnek verilerle alınmıştır.</footer>
+</main>
+</div>
+<script>
+const FRAMES={"baslangic":[{"img":"img/baslangic-01.webp","t":{"x":0.6509,"y":0.2527,"w":0.2929,"h":0.0417},"cap":"Program ilk açıldığında seni karşılama ekranı bekler. Önce firma bilgilerini girmek için “1. Firma bilgilerini gir”e tıkla.","act":"click"},{"img":"img/baslangic-02.webp","t":{"x":0.1965,"y":0.8747,"w":0.0526,"h":0.0417},"cap":"Firma adını, vergi numaranı, telefon, adres ve IBAN'ını yaz. Bu bilgiler tüm fatura, teklif ve ekstrelerin başında çıkar. Sonra “Kaydet”e bas.","act":"click"},{"img":"img/baslangic-03.webp","t":{"x":0.666,"y":0.3774,"w":0.1302,"h":0.0409},"cap":"Sağ tarafta logonu yükleyebilir, PDF'teki boyutunu (Küçük / Orta / Büyük) ve programın tema rengini seçebilirsin.","act":"point"},{"img":"img/baslangic-04.webp","t":{"x":0.8024,"y":0.1657,"w":0.0748,"h":0.0343},"cap":"Şimdi en önemli adım: verilerin için bir kayıt klasörü seçmek. “Kayıt & yedek” sekmesine geç.","act":"click"},{"img":"img/baslangic-05.webp","t":{"x":0.6116,"y":0.1022,"w":0.0861,"h":0.0335},"cap":"“Kayıt klasörü seç”e tıkla ve bilgisayarında bir klasör seç (ör. Belgeler\\Defter Kayıtları). Bundan sonra her değişiklik otomatik kaydedilir, açılış ve kapanışta tarihli yedek alınır.","act":"click"},{"img":"img/baslangic-06.webp","t":{"x":0.5993,"y":0.4707,"w":0.0878,"h":0.0417},"cap":"Programı denemek istersen “Örnek veri ekle” ile hazır cariler, faturalar ve işler ekleyebilirsin. Denemeden sonra “Programı sıfırla” ile tertemiz başlarsın.","act":"click"},{"img":"img/baslangic-07.webp","t":{"x":0.2472,"y":0.0359,"w":0.0754,"h":0.0193},"cap":"Klasör seçildikten sonra üstte “Kaydedildi · saat” yazar. Kayıt & yedek sekmesinde alınan yedekler listelenir; gerektiğinde “Geri yükle” ile eski bir yedeğe dönebilirsin.","act":"point"}],"panel":[{"img":"img/panel-01.webp","t":{"x":0.1833,"y":0.0911,"w":0.1903,"h":0.1226},"cap":"Panel, işletmenin özetidir: nakit (kasa + banka), alacaklar, borçlar ve bu ayın net kârı tek bakışta görünür.","act":"point"},{"img":"img/panel-02.webp","t":{"x":0.1965,"y":0.2901,"w":0.1868,"h":0.0895},"cap":"“Bugün ilgilenmen gerekenler” kutusu vadesi geçen faturaları, teslimi gelen işleri, kritik stokları ve ödeme sözlerini toplar. Bir kutuya tıklayınca ilgili sayfaya gidersin.","act":"click"},{"img":"img/panel-03.webp","t":{"x":0.9176,"y":0.0247,"w":0.0601,"h":0.0417},"cap":"Sağ üstteki hızlı düğmelerle her sayfadan Teklif, İş, Gider, Tahsilat ve Satış ekleyebilirsin.","act":"click"},{"img":"img/panel-04.webp","t":{"x":0.1965,"y":0.0003,"w":0.4557,"h":0.2848},"cap":"Aşağıda son 6 ayın gelir–gider grafiği, kasa & banka bakiyeleri, yaklaşan işler, bekleyen faturalar ve son hareketler yer alır. Grafikte bir aya gelince ayrıntısı açılır.","act":"point"},{"img":"img/panel-05.webp","t":{"x":0.3196,"y":0.0244,"w":0.0931,"h":0.0422},"cap":"Üstteki dönem seçicisiyle çalıştığın mali yılı seçebilirsin. Faturalar, hareketler ve raporlar o yıla göre süzülür.","act":"click"}],"cariler":[{"img":"img/cariler-01.webp","t":{"x":0.0097,"y":0.2078,"w":0.141,"h":0.0426},"cap":"Müşteri ve tedarikçilerin “Cariler” bölümündedir. Sol menüden Cariler'e tıkla.","act":"click"},{"img":"img/cariler-02.webp","t":{"x":0.903,"y":0.0247,"w":0.0748,"h":0.0417},"cap":"Listede her carinin bakiyesi görünür: yeşil = alacağımız, kırmızı = borcumuz. Yeni müşteri eklemek için “Yeni cari”ye bas.","act":"click"},{"img":"img/cariler-03.webp","t":{"x":0.3215,"y":0.1457,"w":0.3569,"h":0.0426},"cap":"Ad / ünvan zorunludur; vergi no, telefon, WhatsApp, e-posta ve adres isteğe bağlıdır. Programa geçmeden önceki bakiyeyi “Açılış bakiyesi”ne yazarsın.","act":"type"},{"img":"img/cariler-04.webp","t":{"x":0.6259,"y":0.9585,"w":0.0526,"h":0.0417},"cap":"“Kaydet”e basınca carinin kartı açılır. Bu örnekte vazgeçip mevcut bir müşteriye bakalım.","act":"click"},{"img":"img/cariler-05.webp","t":{"x":0.184,"y":0.3662,"w":0.7931,"h":0.0682},"cap":"Bir carinin üzerine tıklayınca cari kartı açılır.","act":"click"},{"img":"img/cariler-06.webp","t":{"x":0.8572,"y":0.1481,"w":0.106,"h":0.0846},"cap":"Cari kartının üstünde güncel bakiye, iletişim bilgileri ve etiketler bulunur.","act":"point"},{"img":"img/cariler-07.webp","t":{"x":0.1833,"y":0.2716,"w":0.0898,"h":0.0522},"cap":"Bu müşteriyle ilgili her şeyi buradan eklersin: Satış, Tahsilat, Teklif, Yeni iş, Çek/senet. Müşteri seçmene gerek kalmaz.","act":"click"},{"img":"img/cariler-08.webp","t":{"x":0.1833,"y":0.6765,"w":0.5611,"h":0.0409},"cap":"Alttaki sekmelerde hesap ekstresi, faturalar, tahsilatlar, teklif & işler, görüşme notları ve mutabakatlar listelenir.","act":"point"},{"img":"img/cariler-09.webp","t":{"x":0.8777,"y":0.0247,"w":0.1001,"h":0.0417},"cap":"“Ekstre gönder” ile müşteriye hesap ekstresini PDF olarak hazırlar, WhatsApp veya e-postayla gönderirsin.","act":"click"},{"img":"img/cariler-10.webp","t":{"x":0.6252,"y":0.7667,"w":0.1714,"h":0.0417},"cap":"Kapsamı (son işlemler / tarih aralığı) seç; sağda ekstrenin önizlemesi görünür. “PDF olarak kaydet” dosyayı kaydeder, “Gönder” mesaj penceresini açar.","act":"click"}],"cariaktar":[{"img":"img/cariaktar-01.webp","t":{"x":0.6942,"y":0.0247,"w":0.1201,"h":0.0417},"cap":"Elindeki müşteri listesini tek tek girmene gerek yok. Cariler sayfasında “Excel'den içe aktar”a bas.","act":"click"},{"img":"img/cariaktar-02.webp","t":{"x":0.2035,"y":0.12,"w":0.5931,"h":0.1557},"cap":"Excel (.xlsx) veya CSV dosyanı bu alana sürükle ya da “Dosya seç” ile aç. Excel'de hücreleri kopyalayıp alttaki kutuya yapıştırmak da olur. Hazır şablonu da buradan indirebilirsin.","act":"point"},{"img":"img/cariaktar-03.webp","t":{"x":0.2035,"y":0.1322,"w":0.5931,"h":0.8674},"cap":"Defter sütun başlıklarını (Ünvan, VKN, V.D., Telefon, GSM, E-posta, Adres, İl, İlçe, Yetkili, Bakiye…) kendisi tanır. Yanlış eşleşen olursa sağdaki listeden düzelt.","act":"point"},{"img":"img/cariaktar-04.webp","t":{"x":0.5049,"y":0.4785,"w":0.2917,"h":0.0433},"cap":"Zaten kayıtlı olan firmalar (aynı isim veya vergi no) için ne yapılacağını seç: boş alanlarını doldur, dosyadakiyle güncelle ya da hiç dokunma.","act":"point"},{"img":"img/cariaktar-05.webp","t":{"x":0.6254,"y":0.5462,"w":0.1711,"h":0.023},"cap":"Önizlemede her satırın ne olacağı yazar: yeni, tamamlanacak, atlanacak veya hatalı (ör. ünvanı boş). Telefonlar ve vergi numaraları düzgün biçime getirilir.","act":"point"},{"img":"img/cariaktar-06.webp","t":{"x":0.6865,"y":0.947,"w":0.1101,"h":0.0417},"cap":"Her şey tamamsa “… cariyi içe aktar”a bas. Kayıt klasörün seçiliyse aktarmadan önce otomatik yedek alınır.","act":"click"},{"img":"img/cariaktar-07.webp","t":{"x":0.184,"y":0.9122,"w":0.7931,"h":0.0682},"cap":"Cariler listeye eklendi; bakiyeleri “açılış bakiyesi” olarak geldi. Bir cariye tıklayıp kartında bilgilerini kontrol edebilirsin.","act":"click"}],"akcari":[{"img":"img/akcari-01.webp","t":{"x":0.8198,"y":0.0247,"w":0.0776,"h":0.0417},"cap":"Yeni bir firmayı hızlıca eklemek için “Akıllı cari”ye bas.","act":"click"},{"img":"img/akcari-02.webp","t":{"x":0.2528,"y":0.1719,"w":0.5319,"h":0.1533},"cap":"Kartvizitten, e-posta imzasından ya da fatura bilgisinden kopyaladığın metni kutuya yapıştır.","act":"type"},{"img":"img/akcari-03.webp","t":{"x":0.2035,"y":0.3809,"w":0.5931,"h":0.6193},"cap":"Ünvan, adres, sabit telefon, cep (WhatsApp), e-posta, vergi dairesi, VKN ve yetkili kişi kendiliğinden ayrılır; “bulundu” etiketli alanları istersen düzelt.","act":"point"},{"img":"img/akcari-04.webp","t":{"x":0.6982,"y":0.8847,"w":0.0983,"h":0.0417},"cap":"“Cariyi oluştur”a bas; firma kaydedilir ve kartı açılır. Aynı firma zaten varsa seni uyarır.","act":"click"},{"img":"img/akcari-05.webp","t":{"x":0.1833,"y":0.1248,"w":0.7944,"h":0.1524},"cap":"Yeni carinin kartı hazır: tüm bilgileri dolu, hemen satış, tahsilat veya teklif ekleyebilirsin.","act":"point"},{"img":"img/akcari-06.webp","t":{"x":0.141,"y":0.5351,"w":0.3542,"h":0.0812},"cap":"Akıllı teklifte henüz kayıtlı olmayan bir firma yazarsan (telefonu, e-postasıyla birlikte) Defter onu fark eder: teklifi oluşturduğunda firma yeni cari olarak da açılır. “Bilgileri düzenle” ile önce ayrıntı ekleyebilirsin.","act":"point"}],"urunler":[{"img":"img/urunler-01.webp","t":{"x":0.0097,"y":0.2526,"w":0.141,"h":0.0426},"cap":"“Fiyat listesi” bölümünde sattığın ürün ve hizmetler kategorilere ayrılmış olarak durur.","act":"point"},{"img":"img/urunler-02.webp","t":{"x":0.7215,"y":0.2421,"w":0.0875,"h":0.0381},"cap":"Fiyatı doğrudan tablodan değiştirebilirsin: KDV hariç ya da KDV dahil kutusuna yaz, diğeri kendiliğinden hesaplanır ve kaydedilir.","act":"type"},{"img":"img/urunler-03.webp","t":{"x":0.8063,"y":0.0247,"w":0.0869,"h":0.0417},"cap":"“Hazır liste ekle” ile kaşe, kartvizit, matbaa, promosyon, dijital baskı ve web hizmetleri listelerini tek tıkla eklersin; sonra sadece fiyatları yazarsın.","act":"click"},{"img":"img/urunler-04.webp","t":{"x":0.6951,"y":0.0247,"w":0.1057,"h":0.0417},"cap":"“Toplu zam / indirim” bir kategorideki tüm fiyatları yüzdeyle günceller. “Fiyat listesi PDF” müşteriye gönderilecek fiyat listesini hazırlar.","act":"click"},{"img":"img/urunler-05.webp","t":{"x":0.3215,"y":0.5844,"w":0.0846,"h":0.0335},"cap":"Yeni ürün kartında satış ve alış fiyatı, birim, KDV oranı, adede göre kademeli fiyat, stok takibi ve tekliflerde görünecek görsel tanımlanır.","act":"click"}],"teklif":[{"img":"img/teklif-01.webp","t":{"x":0.8968,"y":0.0247,"w":0.081,"h":0.0417},"cap":"Teklifler bölümünde açık tekliflerin toplamını ve onay oranını görürsün. Yeni bir teklif için “Yeni teklif”e bas.","act":"click"},{"img":"img/teklif-02.webp","t":{"x":0.2035,"y":0.1457,"w":0.2917,"h":0.0433},"cap":"Önce müşteriyi seç. Teklif numarası ve geçerlilik tarihi kendiliğinden gelir.","act":"click"},{"img":"img/teklif-03.webp","t":{"x":0.2035,"y":0.4831,"w":0.1194,"h":0.0335},"cap":"Kalemleri eklemenin en hızlı yolu “Fiyat listesinden ekle”dir.","act":"click"},{"img":"img/teklif-04.webp","t":{"x":0.7065,"y":0.6872,"w":0.09,"h":0.0417},"cap":"Ürünlerin miktarını yaz (kutu kendiliğinden işaretlenir). Adede göre kademeli fiyat varsa doğru fiyat otomatik seçilir. “Seçilenleri ekle”ye bas.","act":"click"},{"img":"img/teklif-05.webp","t":{"x":0.5743,"y":0.5922,"w":0.2222,"h":0.1075},"cap":"Ara toplam, KDV ve genel toplam anında hesaplanır. İstersen satır veya genel iskonto, şablondan detay bölümleri ve şartlar ekleyebilirsin.","act":"point"},{"img":"img/teklif-06.webp","t":{"x":0.3044,"y":0.8209,"w":0.0543,"h":0.0417},"cap":"Kaydedilen teklif logolu bir önizlemeyle açılır. “PDF” ile kaydet, “Gönder” ile WhatsApp / e-postaya hazırla.","act":"click"},{"img":"img/teklif-07.webp","t":{"x":0.2432,"y":0.12,"w":0.2386,"h":0.0409},"cap":"Müşteri cevap verince durumunu buradan değiştir: Gönderildi, Onaylandı, Reddedildi.","act":"point"},{"img":"img/teklif-08.webp","t":{"x":0.7123,"y":0.8209,"w":0.0842,"h":0.0417},"cap":"Onaylanan teklifi tek tıkla “İş emrine çevir” veya “Faturaya çevir”. Kalemler ve müşteri olduğu gibi aktarılır.","act":"click"}],"akilli":[{"img":"img/akilli-01.webp","t":{"x":0.8074,"y":0.0247,"w":0.0838,"h":0.0417},"cap":"Teklifler sayfasında (ve Panel'de) yeni “Akıllı teklif” düğmesi var. Klavyeden Ctrl + K ile de her yerden açılır.","act":"click"},{"img":"img/akilli-02.webp","t":{"x":0.1903,"y":0.1719,"w":0.6569,"h":0.1},"cap":"Açılan kutuya teklifi konuşur gibi yaz: müşteri, ürünler, adetler, istersen fiyat ve “KDV dahil”. Virgül koymak bile şart değil. Örneklere tıklayarak da deneyebilirsin.","act":"type"},{"img":"img/akilli-03.webp","t":{"x":0.1903,"y":0.1719,"w":0.6569,"h":0.1},"cap":"Yazdıkça Defter metni çözer: “Akdeniz Yapı” müşteri olarak, “912 kaşe 2 adet” fiyat listesindeki Trodat 4912 olarak bulunur.","act":"type"},{"img":"img/akilli-04.webp","t":{"x":0.141,"y":0.5739,"w":0.7181,"h":0.4256},"cap":"Her satırın başındaki renk durumunu söyler: yeşil = listede bulundu, mavi = listede yok ama yazdığın fiyatla eklendi (911 kaşe 400 TL, duba tanesi 150 TL), kırmızı = fiyat gerekli.","act":"point"},{"img":"img/akilli-05.webp","t":{"x":0.1848,"y":0.325,"w":0.0976,"h":0.0199},"cap":"Müşteri metinden bulundu (“yazdığından bulundu” etiketi). İstersen listeden başka bir müşteri seçebilirsin; o müşteriye özel fiyatlar ve iskonto kendiliğinden uygulanır.","act":"point"},{"img":"img/akilli-06.webp","t":{"x":0.5049,"y":0.354,"w":0.2213,"h":0.0409},"cap":"“KDV dahil” yazdığın için fiyatlar KDV dahil gösterilir. KDV hariç / dahil / faturasız arasında tek tıkla geçebilirsin; yazdığın fiyatlar seçtiğin şekle göre yorumlanır.","act":"point"},{"img":"img/akilli-07.webp","t":{"x":0.6057,"y":0.9205,"w":0.0819,"h":0.0403},"cap":"Kırmızı satırın fiyatını kutuya yazman yeterli. Ürün seçimi yanlışsa açılır listeden doğrusunu seç; liste dışı ürünü “fiyat listesine ekle” ile kalıcı olarak da kaydedebilirsin.","act":"type"},{"img":"img/akilli-08.webp","t":{"x":0.7601,"y":0.8854,"w":0.0989,"h":0.0417},"cap":"Toplamlar anında hesaplanır, konu da ürünlere göre otomatik yazılır (“Kaşe Fiyat Teklifi”). Her şey tamamsa “Teklifi oluştur”a bas (ya da Ctrl + Enter).","act":"click"},{"img":"img/akilli-09.webp","t":{"x":0.141,"y":0.2308,"w":0.3435,"h":0.0746},"cap":"Teklif numarasıyla kaydedildi ve sağda logolu PDF önizlemesi görünür. Şimdi nasıl gönderileceğini seç: WhatsApp, e-posta, Gmail veya sadece PDF.","act":"point"},{"img":"img/akilli-10.webp","t":{"x":0.141,"y":0.426,"w":0.3435,"h":0.2681},"cap":"Mesaj kendiliğinden hazırlanır: müşteri adı, tüm kalemler, adet × fiyat, KDV ve genel toplam, geçerlilik tarihi, IBAN ve firma bilgin. İstersen metni değiştirebilirsin.","act":"point"},{"img":"img/akilli-11.webp","t":{"x":0.7288,"y":0.8067,"w":0.1302,"h":0.0417},"cap":"“WhatsApp'ta gönder” önce PDF'i kaydettirir, sonra WhatsApp'ı müşterinin numarası ve hazır mesajla açar. PDF'i sohbette ataçla ekle, gönder. Teklif otomatik “Gönderildi” olur.","act":"click"},{"img":"img/akilli-12.webp","t":{"x":0.2282,"y":0.2308,"w":0.0817,"h":0.0746},"cap":"E-posta seçince adres ve konu alanları açılır; mesaj e-posta uygulamanda (veya Gmail'de) hazır gelir.","act":"click"},{"img":"img/akilli-13.webp","t":{"x":0.3905,"y":0.2768,"w":0.0838,"h":0.0417},"cap":"Bir müşterinin kartındayken “Akıllı teklif”e basarsan müşteri hazır seçili gelir; sadece ürünleri yazarsın.","act":"click"}],"isler":[{"img":"img/isler-01.webp","t":{"x":0.1833,"y":0.2851,"w":0.7944,"h":0.2514},"cap":"İş Takibi, matbaa işlerini aşamalara göre gösteren bir panodur: Yeni → Tasarımda → Müşteri onayında → Baskıda → … → Teslim edildi.","act":"point"},{"img":"img/isler-02.webp","t":{"x":0.3708,"y":0.3289,"w":0.1625,"h":0.1876},"cap":"Kartı fareyle tutup başka bir sütuna sürükleyerek veya kartın altındaki ◀ ▶ düğmeleriyle aşamasını değiştirirsin. Acil işler kırmızı çizgiyle öne çıkar.","act":"drag"},{"img":"img/isler-03.webp","t":{"x":0.3642,"y":0.7956,"w":0.0692,"h":0.0417},"cap":"İş emrini aç: “Atölye PDF” fiyatsız iş emri çıkarır (baskıya/atölyeye verilir). İş teslim edilince “Faturaya çevir” ile faturalanır.","act":"click"}],"fatura":[{"img":"img/fatura-01.webp","t":{"x":0.8803,"y":0.0247,"w":0.0975,"h":0.0417},"cap":"Faturalar listesinde her belgenin durumu görünür: Açık, Kısmi ödendi, Vadesi geçti, Ödendi. Yeni satış için “Satış faturası”na bas.","act":"click"},{"img":"img/fatura-02.webp","t":{"x":0.2076,"y":0.4262,"w":0.1411,"h":0.0403},"cap":"Ürün adını yazmaya başla ve listeden seç: birim, fiyat ve KDV kendiliğinden gelir. Miktarı yazınca kademeli fiyat uygulanır.","act":"type"},{"img":"img/fatura-03.webp","t":{"x":0.216,"y":0.669,"w":0.0111,"h":0.0178},"cap":"Gerekirse faturayı taksitlendir. “Faturalı / Faturasız (KDV'siz)” seçimiyle fatura istemeyen müşteriye fiş kesebilirsin.","act":"click"},{"img":"img/fatura-04.webp","t":{"x":0.216,"y":0.8435,"w":0.0111,"h":0.0178},"cap":"Ödeme hemen alındıysa “Ödeme peşin alındı”yı işaretle; tahsilat da otomatik kaydedilir. Sonra “Kaydet”.","act":"click"},{"img":"img/fatura-05.webp","t":{"x":0.6565,"y":0.7644,"w":0.14,"h":0.0417},"cap":"Fatura açılınca önizlemesi ve yapılan tahsilatlar görünür. Kalan tutarı almak için “Tahsilat ekle”ye bas.","act":"click"},{"img":"img/fatura-06.webp","t":{"x":0.6259,"y":0.6441,"w":0.0526,"h":0.0417},"cap":"Tutar ve fatura kendiliğinden dolar; sadece paranın girdiği hesabı (kasa / banka) seç ve kaydet.","act":"click"}],"tahsilat":[{"img":"img/tahsilat-01.webp","t":{"x":0.1833,"y":0.0911,"w":0.2575,"h":0.0409},"cap":"Tahsilat Takibi, kimden ne kadar alacağın olduğunu vadeye göre gruplar: vadesi geçmiş, 7 gün içinde, daha sonra.","act":"point"},{"img":"img/tahsilat-02.webp","t":{"x":0.8853,"y":0.5438,"w":0.0306,"h":0.0335},"cap":"“Not” ile müşteriyle görüşmeni ve ödeme sözü tarihini kaydet; söz tarihi gelince panelde uyarı çıkar.","act":"click"},{"img":"img/tahsilat-03.webp","t":{"x":0.916,"y":0.5404,"w":0.0264,"h":0.0311},"cap":"Uçak simgesi ödeme hatırlatması gönderir.","act":"click"},{"img":"img/tahsilat-04.webp","t":{"x":0.2132,"y":0.4445,"w":0.175,"h":0.0417},"cap":"Mesaj şablondan hazır gelir. “WhatsApp'ta aç” mesajı WhatsApp'ta açar; PDF'i önce “PDF olarak kaydet” ile kaydedip ek olarak ekle. E-posta ve Gmail seçenekleri de var.","act":"click"},{"img":"img/tahsilat-05.webp","t":{"x":0.8327,"y":0.5438,"w":0.0507,"h":0.0335},"cap":"Ödeme geldiğinde “Tahsil et” ile hemen kaydet; borç listeden düşer.","act":"click"}],"kasa":[{"img":"img/kasa-01.webp","t":{"x":0.1833,"y":0.0911,"w":0.2574,"h":0.2052},"cap":"Kasa & Banka bölümünde her hesabın güncel bakiyesi görünür. Hesaplar arası para aktarımı için “Virman” kullanılır.","act":"point"},{"img":"img/kasa-02.webp","t":{"x":0.8849,"y":0.0247,"w":0.0929,"h":0.0417},"cap":"Hareketler, kasa ve bankadaki tüm giriş-çıkışlardır. Kira, elektrik, maaş gibi giderleri “Yeni hareket” ile kategorisiyle girersin.","act":"click"},{"img":"img/kasa-03.webp","t":{"x":0.3215,"y":0.12,"w":0.2341,"h":0.0409},"cap":"Türü seç: Tahsilat, Ödeme, Gelir, Gider veya Virman. Gider ve gelirde KDV oranını seçersen raporlarda KDV ayrıca hesaplanır.","act":"point"},{"img":"img/kasa-04.webp","t":{"x":0.8796,"y":0.0247,"w":0.0982,"h":0.0417},"cap":"Çek & Senet bölümünde müşteriden aldığın ve verdiğin çek-senetleri vadesiyle takip edersin; tahsil, ciro veya karşılıksız olarak işaretlersin.","act":"click"}],"raporlar":[{"img":"img/raporlar-01.webp","t":{"x":0.1833,"y":0.0911,"w":0.3414,"h":0.0409},"cap":"Raporlar: seçtiğin dönemde gelir, gider, net kâr ve ödenecek / devreden KDV. Bu ay, geçen ay, bu çeyrek, bu yıl veya özel tarih seçebilirsin.","act":"point"},{"img":"img/raporlar-02.webp","t":{"x":0.1965,"y":0.072,"w":0.7681,"h":0.3072},"cap":"Aylık gelir–gider grafiği ve KDV tablosu, en çok alacağın ve borcun olan cariler aşağıda listelenir.","act":"point"}],"ayarlar":[{"img":"img/ayarlar-01.webp","t":{"x":0.5368,"y":0.7757,"w":0,"h":0},"cap":"Ayarlar → Modüller & menü: kullanmadığın bölümleri kapat (veriler silinmez), menü sırasını değiştir, panelde neyin görüneceğini seç.","act":"point"},{"img":"img/ayarlar-02.webp","t":{"x":0.5993,"y":0.8228,"w":0.3653,"h":0.1779},"cap":"Belgeler & mesajlar: belge rengi, kaşe/imza görseli, fatura ve teklif notları ile WhatsApp / e-posta mesaj şablonları buradadır.","act":"point"},{"img":"img/ayarlar-03.webp","t":{"x":0.4445,"y":0.1643,"w":0.1173,"h":0.0335},"cap":"Kullanıcılar & giriş: ilk kullanıcıyı oluşturunca program her açılışta kullanıcı adı ve şifre ister. Personel yetkisindeki kişiler Ayarlar ve Raporlar'ı göremez.","act":"click"},{"img":"img/ayarlar-04.webp","t":{"x":0.4571,"y":0.1643,"w":0.1047,"h":0.0335},"cap":"Dönemler: yıl sonunda bakiyeleri yeni yıla devret ve eski yılı kapat; kapalı yılın kayıtları değiştirilemez.","act":"click"},{"img":"img/ayarlar-05.webp","t":{"x":0.5993,"y":0.2602,"w":0.1197,"h":0.0417},"cap":"Kayıt & yedek: “Şimdi yedek al”, “Dosyadan geri yükle” ve muhasebecine göndermek için “Excel dosyası indir” buradadır.","act":"click"}]};const CH=[["baslangic","İlk açılış ve ayarlar","Firma bilgilerini gir, kayıt klasörünü seç."],["panel","Panel","İşletmenin günlük özeti ve uyarılar."],["cariler","Cariler ve cari kartı","Müşteri / tedarikçi ekleme, ekstre gönderme."],["cariaktar","Excel'den cari aktarma","Müşteri listeni Excel / CSV'den tek seferde aktar."],["akcari","Akıllı cari ✨","Kartvizit veya imzayı yapıştır, cari kartı kendiliğinden dolsun."],["urunler","Fiyat listesi ve ürünler","Fiyat girme, hazır listeler, toplu zam."],["teklif","Teklif hazırlama","Fiyat listesinden teklif, PDF, faturaya çevirme."],["akilli","Akıllı teklif ✨","Yaz, teklif hazır olsun: müşteri, ürün, adet, fiyat; WhatsApp / e-postayla gönder."],["isler","İş takibi","Matbaa işlerini aşama panosunda yürütme."],["fatura","Fatura ve tahsilat","Satış faturası kesme, ödeme kaydetme."],["tahsilat","Tahsilat takibi","Vadesi gelenler, ödeme sözü, WhatsApp hatırlatma."],["kasa","Kasa, banka ve çek","Hesaplar, giderler, virman, çek & senet."],["raporlar","Raporlar","Gelir, gider, kâr ve KDV."],["ayarlar","Ayarlar ve yedek","Modüller, mesajlar, kullanıcılar, dönemler, Excel."]];
+const $ = (s, e = document) => e.querySelector(s), $$ = (s, e = document) => [...e.querySelectorAll(s)];
+const RM = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const ICON = {
+  play: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>',
+  pause: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 5h4v14H7zM13 5h4v14h-4z"/></svg>',
+  prev: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m15 6-6 6 6 6"/></svg>',
+  next: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg>',
+  again: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12a8 8 0 1 0 2.3-5.6M4 4v4h4"/></svg>'
+};
+const CURSOR = '<svg viewBox="0 0 24 24"><path class="ar" d="M3 2l15.5 9.2-6.7 1.4 3.9 7.4-2.9 1.5-3.9-7.4L3.6 18.6z" fill="#111" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"/><path class="ib" d="M8 3h8M8 21h8M12 3v18" stroke="#111" stroke-width="2.4" fill="none" stroke-linecap="round"/></svg>';
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+// bölümleri kur
+const host = $("#chapters");
+$("#toc").innerHTML = `<li><a href="#kurulum"><span>0</span>Kurulum</a></li>` + CH.map(([k, t], i) => `<li><a href="#ch-${k}"><span>${i + 1}</span>${esc(t)}</a></li>`).join("") + `<li><a href="#sss"><span>?</span>Sık sorulanlar</a></li>`;
+host.innerHTML = CH.map(([k, t, d], i) => `<section id="ch-${k}"><h2><span class="n">${i + 1}</span>${esc(t)}</h2><p class="sub">${esc(d)}</p>
+  <div class="player" data-ch="${k}"><div class="win"><div class="tb"><span class="mi">D</span>Defter — Ön Muhasebe<span class="sp"></span><span class="wb">—</span><span class="wb">▢</span><span class="wb">✕</span></div><div class="mb"><span>Dosya</span><span>Düzen</span><span>Görünüm</span><span>Yardım</span></div>
+  <div class="screen" title="Durdur / oynat"><img alt=""><img alt=""><div class="hl"></div><div class="rip"></div><div class="cur">${CURSOR}</div></div></div>
+  <div class="ctrl"><button class="btn" data-a="prev" title="Önceki adım">${ICON.prev}</button><button class="btn pri" data-a="play" title="Oynat / durdur">${ICON.play}</button><button class="btn" data-a="next" title="Sonraki adım">${ICON.next}</button><span class="cnt"></span><div class="bars">${FRAMES[k].map((_, j) => `<i data-j="${j}" title="Adım ${j + 1}"><b></b></i>`).join("")}</div></div>
+  <p class="cap"></p></div>
+  <details class="list"><summary>Bu bölümün tüm adımları (${FRAMES[k].length})</summary><ol>${FRAMES[k].map((f, j) => `<li data-j="${j}">${esc(f.cap)}</li>`).join("")}</ol></details></section>`).join("");
+
+class Player {
+  constructor(el, list) {
+    this.el = el; this.list = list; this.i = -1; this.playing = false; this.timers = []; this.front = 0;
+    this.imgs = $$(".screen img", el); this.hl = $(".hl", el); this.cur = $(".cur", el); this.rip = $(".rip", el);
+    this.cap = $(".cap", el); this.cnt = $(".cnt", el); this.bars = $$(".bars i", el); this.pbtn = $('[data-a="play"]', el);
+    this.cur.style.left = "55%"; this.cur.style.top = "60%";
+    $('[data-a="prev"]', el).onclick = () => { this.userPaused = true; this.pause(); this.show(Math.max(0, this.i - 1)); };
+    $('[data-a="next"]', el).onclick = () => { this.userPaused = true; this.pause(); this.show(Math.min(this.list.length - 1, this.i + 1)); };
+    this.pbtn.onclick = () => this.toggle();
+    $(".screen", el).onclick = () => this.toggle();
+    this.bars.forEach(b => b.onclick = () => { this.userPaused = true; this.pause(); this.show(+b.dataset.j); });
+    $$("li[data-j]", el.parentElement).forEach(li => li.onclick = () => { this.userPaused = true; this.pause(); this.show(+li.dataset.j); el.scrollIntoView({ block: "center" }); });
+    list.forEach(f => { const im = new Image(); im.src = f.img; });
+    this.show(0, true);
+  }
+  clear() { this.timers.forEach(clearTimeout); this.timers = []; }
+  at(ms, fn) { this.timers.push(setTimeout(fn, RM ? Math.min(ms, 60) : ms)); }
+  dur(f) { return Math.min(9000, Math.max(4600, f.cap.length * 52)); }
+  show(i, still) {
+    this.clear(); const f = this.list[i], prev = this.list[this.i]; this.i = i;
+    // görüntü
+    if (!prev || prev.img !== f.img || still) { const nb = this.imgs[1 - this.front]; nb.src = f.img; nb.classList.add("on"); this.imgs[this.front].classList.remove("on"); this.front = 1 - this.front; }
+    this.cap.innerHTML = `<span class="no">${i + 1}</span>${esc(f.cap)}`;
+    this.cnt.textContent = `${i + 1} / ${this.list.length}`;
+    this.bars.forEach((b, j) => { b.classList.toggle("done", j < i); const bb = $("b", b); bb.style.transition = "none"; bb.style.width = j < i ? "100%" : "0"; });
+    this.hl.classList.remove("on"); this.cur.classList.remove("type", "press");
+    const t = f.t;
+    if (!t) { this.cur.style.opacity = 0; } else {
+      this.cur.style.opacity = 1;
+      const cx = (t.x + t.w * (t.w > .25 ? .3 : .5)) * 100, cy = (t.y + t.h * .55) * 100;
+      const pad = .006;
+      Object.assign(this.hl.style, { left: (t.x - pad) * 100 + "%", top: (t.y - pad * 1.6) * 100 + "%", width: (t.w + pad * 2) * 100 + "%", height: (t.h + pad * 3.2) * 100 + "%" });
+      this.at(450, () => { this.cur.style.left = cx + "%"; this.cur.style.top = cy + "%"; if (f.act === "type") this.cur.classList.add("type"); });
+      this.at(1350, () => this.hl.classList.add("on"));
+      if (f.act === "click" || f.act === "drag") this.at(1550, () => {
+        this.cur.classList.add("press"); this.rip.style.left = cx + "%"; this.rip.style.top = cy + "%";
+        this.rip.classList.remove("go"); void this.rip.offsetWidth; this.rip.classList.add("go");
+        if (f.act === "drag") { this.at(250, () => { this.cur.style.left = cx + 9 + "%"; }); this.at(1300, () => { this.cur.classList.remove("press"); this.cur.style.left = cx + "%"; }); }
+        else this.at(180, () => this.cur.classList.remove("press"));
+      });
+    }
+    if (this.playing && !still) this.runBar();
+  }
+  runBar() {
+    const f = this.list[this.i], d = this.dur(f), bb = $("b", this.bars[this.i]);
+    bb.style.transition = "none"; bb.style.width = "0"; void bb.offsetWidth; bb.style.transition = `width ${d}ms linear`; bb.style.width = "100%";
+    this.at(d, () => { if (this.i < this.list.length - 1) this.show(this.i + 1); else { this.playing = false; this.pbtn.innerHTML = ICON.again; this.pbtn.title = "Baştan oynat"; this.done = true; } });
+  }
+  play() {
+    if (this.playing) return; Player.all.forEach(p => p !== this && p.pause());
+    this.playing = true; this.pbtn.innerHTML = ICON.pause;
+    if (this.done) { this.done = false; this.show(0); } else this.show(this.i);
+  }
+  pause() { if (!this.playing) return; this.playing = false; this.clear(); this.pbtn.innerHTML = ICON.play; const bb = $("b", this.bars[this.i]); const w = getComputedStyle(bb).width; bb.style.transition = "none"; bb.style.width = w; }
+  toggle() { if (this.playing) { this.userPaused = true; this.pause(); } else { this.userPaused = false; this.play(); } }
+}
+Player.all = $$(".player").map(el => new Player(el, FRAMES[el.dataset.ch]));
+// görünen oynatıcı kendiliğinden oynasın
+const vis = new Map();
+const io = new IntersectionObserver(es => {
+  es.forEach(e => vis.set(e.target, e.intersectionRatio));
+  let best = null, r = .55; vis.forEach((v, el) => { if (v > r) { r = v; best = el; } });
+  Player.all.forEach(p => { if (p.el === best) { if (!p.playing && !p.done && !p.userPaused) p.play(); } else if (p.playing) p.pause(); });
+}, { threshold: [0, .25, .55, .75, 1] });
+Player.all.forEach(p => io.observe(p.el));
+// içindekiler vurgusu
+const secs = $$("section"), links = $$(".toc a");
+const so = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) links.forEach(a => a.classList.toggle("on", a.getAttribute("href") === "#" + e.target.id)); }), { rootMargin: "-30% 0px -60% 0px" });
+secs.forEach(s => so.observe(s));
+document.addEventListener("keydown", e => { const p = Player.all.find(x => x.playing) || Player.all.find(x => vis.get(x.el) > .5); if (!p || /INPUT|TEXTAREA/.test(e.target.tagName)) return; if (e.key === "ArrowRight") { p.pause(); p.show(Math.min(p.list.length - 1, p.i + 1)); } if (e.key === "ArrowLeft") { p.pause(); p.show(Math.max(0, p.i - 1)); } });
+</script>
+</body>
+</html>
